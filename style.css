@@ -196,6 +196,58 @@ body::after {
     line-height: 1.6;
 }
 
+/* Hidden class for reveal functionality */
+.hidden {
+    display: none !important;
+}
+
+.blurred {
+    filter: blur(8px);
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Button Container */
+.button-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Reveal Button */
+.reveal-button {
+    background: linear-gradient(135deg, var(--subtle-gold) 0%, #c9a832 100%);
+    color: var(--charcoal-ink);
+    border: none;
+    padding: 14px 40px;
+    font-size: 1rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    letter-spacing: 1px;
+}
+
+.reveal-button span {
+    font-size: 1.1rem;
+    margin-right: 8px;
+    font-weight: 600;
+}
+
+.reveal-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
+    background: linear-gradient(135deg, #e0c55b 0%, #d4af37 100%);
+}
+
+.reveal-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+
 /* Next Button */
 .next-button {
     background: linear-gradient(135deg, var(--accent-vermilion) 0%, #b04943 100%);
@@ -265,9 +317,16 @@ body::after {
         font-size: 0.65rem;
     }
 
-    .next-button {
+    .button-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .next-button,
+    .reveal-button {
         padding: 12px 35px;
         font-size: 0.95rem;
+        width: 100%;
     }
 }
 

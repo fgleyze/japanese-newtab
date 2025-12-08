@@ -116,19 +116,81 @@ function getRandomEntry() {
     return dictionary[randomIndex];
 }
 
+// Quiz modes: 1 = hide romaji, 2 = hide english, 3 = hide both romaji and english
+let currentMode = 1;
+let isRevealed = false;
+
 function updateUI() {
     const entry = getRandomEntry();
 
-    document.getElementById('english-text').textContent = entry.en;
-    document.getElementById('romaji-text').textContent = entry.romaji;
+    // Randomly select quiz mode
+    currentMode = Math.floor(Math.random() * 3) + 1;
+    isRevealed = false;
+
+    // Always show kanji and kana
     document.getElementById('kana-text').textContent = entry.kana;
     document.getElementById('kanji-text').textContent = entry.kanji;
     document.getElementById('category-tag').textContent = entry.cat;
+
+    const romajiEl = document.getElementById('romaji-text');
+    const englishEl = document.getElementById('english-text');
+    const revealBtn = document.getElementById('reveal-button');
+    const nextBtn = document.getElementById('next-button');
+
+    // Reset visibility
+    romajiEl.classList.remove('blurred');
+    englishEl.classList.remove('blurred');
+    revealBtn.classList.remove('hidden');
+    nextBtn.classList.add('hidden');
+
+    // Set content
+    romajiEl.textContent = entry.romaji;
+    englishEl.textContent = entry.en;
+
+    // Apply quiz mode
+    if (currentMode === 1) {
+        // Hide romaji (practice reading kana/kanji and knowing the meaning)
+        romajiEl.classList.add('blurred');
+        revealBtn.innerHTML = '<span>見</span> Reveal Romaji';
+    } else if (currentMode === 2) {
+        // Hide english (practice translating from Japanese)
+        englishEl.classList.add('blurred');
+        revealBtn.innerHTML = '<span>見</span> Reveal English';
+    } else {
+        // Hide both (practice reading kana/kanji without any hints)
+        romajiEl.classList.add('blurred');
+        englishEl.classList.add('blurred');
+        revealBtn.innerHTML = '<span>見</span> Reveal Answer';
+    }
+}
+
+function revealAnswer() {
+    if (isRevealed) return;
+
+    isRevealed = true;
+    const romajiEl = document.getElementById('romaji-text');
+    const englishEl = document.getElementById('english-text');
+    const revealBtn = document.getElementById('reveal-button');
+    const nextBtn = document.getElementById('next-button');
+
+    // Remove blur to reveal answers
+    romajiEl.classList.remove('blurred');
+    englishEl.classList.remove('blurred');
+
+    // Swap buttons
+    revealBtn.classList.add('hidden');
+    nextBtn.classList.remove('hidden');
 }
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     updateUI();
+
+    // Add click event to reveal button
+    const revealButton = document.getElementById('reveal-button');
+    if (revealButton) {
+        revealButton.addEventListener('click', revealAnswer);
+    }
 
     // Add click event to next button
     const nextButton = document.getElementById('next-button');
